@@ -39,3 +39,5 @@ Route::post('/sessiontoken',function(Request $request){
         response()->json(['error' => 'Unauthorized'], 401);
     }
 });
+
+Route::post('/productsFromEmail',[ProductController::class, 'postProductsByUserId'])

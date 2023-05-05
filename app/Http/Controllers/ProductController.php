@@ -18,4 +18,9 @@ class ProductController extends Controller
     {
         return $this->productRepository->getProductsByUserId($request->all()['userId']);
     }
+
+    public function postProductsByUserId(Request $request)
+    {
+        return $this->productRepository->getProductsByUserId($request->all()['products'],$request->all()['userId']); 
+    }
 }

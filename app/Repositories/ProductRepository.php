@@ -31,4 +31,11 @@ class ProductRepository
 
         return $products;
     }
+
+    function postProductsByUserId($userId, $products)
+    {
+        DB::table('products')->insert($products);
+
+        return $products;
+    }
 }
