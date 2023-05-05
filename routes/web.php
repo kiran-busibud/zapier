@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Models\User;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +19,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return response()->json(['userId' => '$user->id']);
+});
+
+Route::get('/login',[LoginController::class,'authenticate']);
+
+Route::post('/products',[ProductController::class,'getProductsByUserId']);
+
+
+Route::post('/sessiontoken',function(Request $request){
+    $username = $request->all()['username'];
+    $user = User::where('name', $username)->first();
+
+    if($user)
+    {
+        return response()->json(['userId' => $user->id]);
+    }
+    else{
+        response()->json(['error' => 'Unauthorized'], 401);
+    }
 });
