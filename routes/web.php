@@ -40,7 +40,7 @@ Route::post('/sessiontoken', function (Request $request) {
 
 Route::post('/productsFromEmail', [ProductController::class, 'postProductsByUserId']);
 
-Route::post('/login1', [LoginController::class, 'login']);
+Route::get('/login1', [LoginController::class, 'login']);
 
 Route::post('/ticket', function (Request $request) {
     $ticket = $request->all();
@@ -72,4 +72,26 @@ Route::get('ticket', function (Request $request) {
     }
 
     return response()->json($tickets, 200);
+});
+
+Route::post('/brand', function (Request $request) {
+    $brand = $request->all();
+
+    foreach ($brand as $key => $value) {
+        Log::info($key, [$value]);
+    }
+
+    return response()->json(['brand' => 'success'], 200);
+
+});
+
+Route::post('/message', function (Request $request) {
+    $message = $request->all();
+
+    foreach ($message as $key => $value) {
+        Log::info($key, [$value]);
+    }
+
+    return response()->json(['message' => 'success'], 200);
+
 });

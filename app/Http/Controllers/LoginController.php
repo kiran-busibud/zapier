@@ -41,7 +41,7 @@ class LoginController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        Log::info('cred',[$credentials]);
+        // Log::info('cred',[$credentials]);
         if (Auth::attempt($credentials)) {
             $sessionKey = session()->getId();
             return response()->json(['session_key' => $sessionKey], 200);
