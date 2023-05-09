@@ -36,4 +36,17 @@ class LoginController extends Controller
         // return response()->json(['error' => 'Unauthorized'], 401);
 
     }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        Log::info('cred',[$credentials]);
+        if (Auth::attempt($credentials)) {
+            $sessionKey = session()->getId();
+            return response()->json(['session_key' => $sessionKey], 200);
+        }
+
+        return response()->json(['error' => 'Invalid credentials'], 401);
+    }
 }

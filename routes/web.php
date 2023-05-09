@@ -40,4 +40,18 @@ Route::post('/sessiontoken',function(Request $request){
     }
 });
 
-Route::post('/productsFromEmail',[ProductController::class, 'postProductsByUserId'])
+Route::post('/productsFromEmail',[ProductController::class, 'postProductsByUserId']);
+
+Route::post('/login1',[LoginController::class,'login']);
+
+Route::post('/ticket',function(Request $request){
+    $tickets = $request->all();
+
+    foreach($tickets as $ticket)
+    {
+        Log::info('ticket',[$ticket]);
+    }
+
+    return response()->json(['ticket' => 'success'], 200);
+
+});
