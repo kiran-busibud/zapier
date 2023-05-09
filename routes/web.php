@@ -22,36 +22,54 @@ Route::get('/', function () {
     return response()->json(['userId' => '$user->id']);
 });
 
-Route::get('/login',[LoginController::class,'authenticate']);
+Route::get('/login', [LoginController::class, 'authenticate']);
 
-Route::post('/products',[ProductController::class,'getProductsByUserId']);
+Route::post('/products', [ProductController::class, 'getProductsByUserId']);
 
 
-Route::post('/sessiontoken',function(Request $request){
+Route::post('/sessiontoken', function (Request $request) {
     $username = $request->all()['username'];
     $user = User::where('name', $username)->first();
 
-    if($user)
-    {
+    if ($user) {
         return response()->json(['userId' => $user->id]);
-    }
-    else{
+    } else {
         response()->json(['error' => 'Unauthorized'], 401);
     }
 });
 
-Route::post('/productsFromEmail',[ProductController::class, 'postProductsByUserId']);
+Route::post('/productsFromEmail', [ProductController::class, 'postProductsByUserId']);
 
-Route::post('/login1',[LoginController::class,'login']);
+Route::post('/login1', [LoginController::class, 'login']);
 
-Route::post('/ticket',function(Request $request){
-    $tickets = $request->all();
+Route::post('/ticket', function (Request $request) {
+    $ticket = $request->all();
 
-    foreach($tickets as $ticket)
-    {
-        Log::info('ticket',[$ticket]);
+    foreach ($ticket as $key => $value) {
+        Log::info($key, [$value]);
     }
 
     return response()->json(['ticket' => 'success'], 200);
 
+});
+
+Route::get('ticket', function (Request $request) {
+
+    $tickets = [];
+
+    $ticket_count = rand(1, 10);
+    for ($i = 0; $i < $ticket_count; $i++) {
+        $ticket = [
+            "id" => rand(1, 100),
+            "ticket_name" => "name",
+            "ticket_description" => "ticket_description",
+            "ticket_title" => "ticket_title",
+            "ticket_brand" => "ticket_brand",
+            "ticket_date" => "ticket_date"
+        ];
+
+        $tickets[] = $ticket;
+    }
+
+    return response()->json($tickets, 200);
 });
