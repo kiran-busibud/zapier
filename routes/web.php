@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Http\Controllers\TicketController;
 
 
 /*
@@ -42,19 +43,20 @@ Route::post('/productsFromEmail', [ProductController::class, 'postProductsByUser
 
 Route::get('/login1', [LoginController::class, 'login']);
 
-Route::post('/ticket', function (Request $request) {
-    $ticket = $request->all();
+// Route::post('/ticket', function (Request $request) {
+//     $ticket = $request->all();
 
-    foreach ($ticket as $key => $value) {
-        Log::info($key, [$value]);
-    }
+//     foreach ($ticket as $key => $value) {
+//         Log::info($key, [$value]);
+//     }
 
-    return response()->json(['ticket' => 'success'], 200);
+//     return response()->json(['ticket' => 'success'], 200);
 
-});
+// });
 
 Route::get('ticket', function (Request $request) {
 
+    Log::info('request',[$request->all()]);
     $tickets = [];
 
     $ticket_count = rand(1, 10);
@@ -95,3 +97,22 @@ Route::post('/message', function (Request $request) {
     return response()->json(['message' => 'success'], 200);
 
 });
+
+Route::get('/sample_dynamic', function (Request $request) {
+    return response()->json(['field1' => 'dynamic_field', 'field2'=>'dynamic_field2'], 200);
+
+});
+
+Route::get('/user',function(Request $request){
+    return response()->json([['id'=>0,'user_name'=>'msvk','email'=>'kiran@gmail.com']],200);
+});
+
+Route::get('/message',function(Request $request){
+    return response()->json([['id'=>0,'description'=>'hi, this is kiran']],200);
+});
+
+Route::get('/brand',function(Request $request){
+    return response()->json([['id'=>0,'brand'=>'brand']],200);
+});
+
+Route::post('/ticket',[TicketController::class,'postTicket']);
