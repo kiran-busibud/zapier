@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\TicketController;
+use App\Models\Post;
+use MeiliSearch\Endpoints\Indexes;
 
 
 /*
@@ -116,3 +118,42 @@ Route::get('/brand',function(Request $request){
 });
 
 Route::post('/ticket',[TicketController::class,'postTicket']);
+
+Route::get('/meilisearch_test',function(Request $request){
+    $post = Post::search('title1', function (Indexes $meilisearch, $query, $options) {
+        $options['filters'] = 'title="title1"';
+        return $meilisearch->search($query, $options);
+    })->get();
+
+    dd($post);
+});
+
+
+Route::get('/meilisearch_test1',function(Request $request){
+    $results = null;
+
+    // if($query = $request->get('query')){
+        
+    //     $results = Post::search($query, function ($meilisearch, $query, $options){
+    //         $options['filters'] = 'title = "title1"';
+
+    //         return $meilisearch->search($query, $options);
+    //     })
+
+    //         ->get();
+
+    //     dd($results);
+    // }
+
+    $query = "title1";
+
+    $results = Post::search($query, function ($meilisearch, $query, $options){
+        $options['filter'] = [['title = "title1"','title = "test title"'],'description = "test description"'];
+
+        return $meilisearch->search($query, $options);
+    })
+
+        ->get();
+
+    dd($results);
+});
