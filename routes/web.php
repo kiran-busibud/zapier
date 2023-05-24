@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Http\Controllers\TicketController;
 use App\Models\Post;
 use MeiliSearch\Endpoints\Indexes;
+use Illuminate\Database\Eloquent\Builder;
+use MeiliSearch\Client;
 
 
 /*
@@ -148,12 +150,31 @@ Route::get('/meilisearch_test1',function(Request $request){
     $query = "title1";
 
     $results = Post::search($query, function ($meilisearch, $query, $options){
-        $options['filter'] = [['title = "title1"','title = "test title"'],'description = "test description"'];
+        // $options['filter'] = [['title = "title1"','title = "test title"'],'description = "test description"'];
+        $options['attributesToHighlight'] = ["overview"];
+        $options['showMatchesPosition'] = true;
+        // $options['limit'] = 1;
 
         return $meilisearch->search($query, $options);
     })
 
+        // ->query(fn (Builder $query) => $query->with('_matchesPosition'))
         ->get();
+
+    dd($results);
+});
+
+
+Route::get('/meilisearch_test2',function(Request $request){
+
+    $host = env('MEILISEARCH_HOST', 'http://localhost:7700');
+    $key = env('MEILISEARCH_KEY');
+    $client = new Client($host, $key);
+
+    $results = $client->index('posts_index')->search('title1', [
+        'attributesToHighlight' => ['overview'],
+        'showMatchesPosition' => true
+      ]);
 
     dd($results);
 });
