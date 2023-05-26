@@ -16,7 +16,7 @@ class TicketSearchController extends Controller
 
     public function addPayload($body)
     {
-        $body['query'] = 'fad';
+        $body['query'] = 'kira';
         $body['keys']=['ticket_title','ticket_description','customer_nicename'];
         return $body;
     }
@@ -26,14 +26,18 @@ class TicketSearchController extends Controller
      
         $body = $request->all();
         $body = $this->addPayload($body);
-        $tickets = $this->meilisearchClient->index('test_index3')->search('sainia', [
-            'showMatchesPosition' => true
+
+        $query = $body['query'];
+        $keys = $body['keys'];
+
+        $tickets = $this->meilisearchClient->index('test_index6')->search($query, [
+            'showMatchesPosition' => true,
+            'limit' => 30
           ]);
 
         // dd($tickets);
 
-        $query = $body['query'];
-        $keys = $body['keys'];
+       
 
         
         if(!in_array('*', $keys)){
@@ -52,7 +56,7 @@ class TicketSearchController extends Controller
             $tickets = $ticketsWithKeys;
         }
 
-          return response()->json(['tickets'=>(array)$tickets],200);
+          return response()->json(['count'=>count($tickets),'tickets'=>(array)$tickets],200);
         //   return response()->json(['request'=>$request->all()],200);
 
     }

@@ -9,6 +9,7 @@ use App\Repositories\UserRepository;
 use App\Services\TicketService;
 use Meilisearch\Client;
 use Meilisearch\Meilisearch;
+use Faker\Factory as Faker;
 
 class TicketIndexService
 {
@@ -36,8 +37,7 @@ class TicketIndexService
     public function getTicketsArray($tickets)
     {
         $ticketsArray = [];
-        foreach($tickets as $key=>$value)
-        {
+        foreach ($tickets as $key => $value) {
             $ticketsArray[] = $value;
         }
 
@@ -52,9 +52,33 @@ class TicketIndexService
 
         $host = env('MEILISEARCH_HOST');
         $key = env('MEILISEARCH_KEY');
-        
-        $this->meilisearchClient = new Client($host,$key);
+
+        $this->meilisearchClient = new Client($host, $key);
 
         $this->meilisearchClient->index('test_index4')->updateDocuments($tickets);
+    }
+
+    public function indexRandomTickets($count = 0)
+    {
+        $tickets = [];
+
+        $faker = Faker::create();
+
+        for ($i = 1; $i <= $count; $i++) {
+            $ticket['id'] = $i;
+            $ticket['ticket_title'] = $faker->sentence;
+            $ticket['ticket_description'] = $faker->paragraph;
+            $ticket['customer_nicename'] = $faker->name;
+            $ticket['meta_data'] = $faker->sentence;
+
+            $tickets[] = $ticket;
+        }
+
+        $host = env('MEILISEARCH_HOST');
+        $key = env('MEILISEARCH_KEY');
+
+        $this->meilisearchClient = new Client($host, $key);
+
+        $this->meilisearchClient->index('test_index6')->updateDocuments($tickets);
     }
 }
