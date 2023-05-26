@@ -60,7 +60,7 @@ Route::get('/login1', [LoginController::class, 'login']);
 
 Route::get('ticket', function (Request $request) {
 
-    Log::info('request',[$request->all()]);
+    Log::info('request', [$request->all()]);
     $tickets = [];
 
     $ticket_count = rand(1, 10);
@@ -103,25 +103,25 @@ Route::post('/message', function (Request $request) {
 });
 
 Route::get('/sample_dynamic', function (Request $request) {
-    return response()->json(['field1' => 'dynamic_field', 'field2'=>'dynamic_field2'], 200);
+    return response()->json(['field1' => 'dynamic_field', 'field2' => 'dynamic_field2'], 200);
 
 });
 
-Route::get('/user',function(Request $request){
-    return response()->json([['id'=>0,'user_name'=>'msvk','email'=>'kiran@gmail.com']],200);
+Route::get('/user', function (Request $request) {
+    return response()->json([['id' => 0, 'user_name' => 'msvk', 'email' => 'kiran@gmail.com']], 200);
 });
 
-Route::get('/message',function(Request $request){
-    return response()->json([['id'=>0,'description'=>'hi, this is kiran']],200);
+Route::get('/message', function (Request $request) {
+    return response()->json([['id' => 0, 'description' => 'hi, this is kiran']], 200);
 });
 
-Route::get('/brand',function(Request $request){
-    return response()->json([['id'=>0,'brand'=>'brand']],200);
+Route::get('/brand', function (Request $request) {
+    return response()->json([['id' => 0, 'brand' => 'brand']], 200);
 });
 
-Route::post('/ticket',[TicketController::class,'postTicket']);
+Route::post('/ticket', [TicketController::class, 'postTicket']);
 
-Route::get('/meilisearch_test',function(Request $request){
+Route::get('/meilisearch_test', function (Request $request) {
     $post = Post::search('title1', function (Indexes $meilisearch, $query, $options) {
         $options['filters'] = 'title="title1"';
         return $meilisearch->search($query, $options);
@@ -131,11 +131,11 @@ Route::get('/meilisearch_test',function(Request $request){
 });
 
 
-Route::get('/meilisearch_test1',function(Request $request){
+Route::get('/meilisearch_test1', function (Request $request) {
     $results = null;
 
     // if($query = $request->get('query')){
-        
+
     //     $results = Post::search($query, function ($meilisearch, $query, $options){
     //         $options['filters'] = 'title = "title1"';
 
@@ -149,7 +149,7 @@ Route::get('/meilisearch_test1',function(Request $request){
 
     $query = "title1";
 
-    $results = Post::search($query, function ($meilisearch, $query, $options){
+    $results = Post::search($query, function ($meilisearch, $query, $options) {
         // $options['filter'] = [['title = "title1"','title = "test title"'],'description = "test description"'];
         $options['attributesToHighlight'] = ["overview"];
         $options['showMatchesPosition'] = true;
@@ -165,7 +165,7 @@ Route::get('/meilisearch_test1',function(Request $request){
 });
 
 
-Route::get('/meilisearch_test2',function(Request $request){
+Route::get('/meilisearch_test2', function (Request $request) {
 
     $host = env('MEILISEARCH_HOST', 'http://localhost:7700');
     $key = env('MEILISEARCH_KEY');
@@ -174,7 +174,9 @@ Route::get('/meilisearch_test2',function(Request $request){
     $results = $client->index('posts_index')->search('title1', [
         'attributesToHighlight' => ['overview'],
         'showMatchesPosition' => true
-      ]);
+    ]);
 
     dd($results);
 });
+
+Route::get('/tickets', [TicketController::class, 'getAllTickets']);

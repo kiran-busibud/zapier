@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repositories\TicketRepository;
 use Illuminate\Http\Request;
 use App\Keys\TicketKeys;
 
@@ -9,10 +10,13 @@ class TicketService
 {
 
     private $ticketKeys;
+    private $ticketRepository;
 
-    public function __construct(TicketKeys $ticketKeys)
+    public function __construct()
     {
-        $this->ticketKeys = $ticketKeys;
+        $this->ticketKeys = new TicketKeys();
+        $this->ticketRepository = new TicketRepository();
+        
     }
     public function getRequestBody(Request $request)
     {
@@ -65,5 +69,21 @@ class TicketService
         else{
             return response()->json(400);
         }
+    }
+
+    public function getIds($tickets)
+    {
+        $ticketIds = [];
+        foreach($tickets as $ticket){
+            $ticketIds[] = $ticket->id;
+        }
+        return $ticketIds;
+    }
+
+    public function getTicketDatatForIndexing()
+    {
+        $tickets = $this->ticketRepository->getAllTickets();
+
+        $ids = $this->getIds($tickets);
     }
 }
