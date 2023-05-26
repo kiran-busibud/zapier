@@ -55,6 +55,6 @@ class TicketIndexService
         
         $this->meilisearchClient = new Client($host,$key);
 
-        $this->meilisearchClient->index('test_index3')->updateDocuments($tickets);
+        $this->meilisearchClient->index('test_index4')->updateDocuments($tickets);
     }
 }

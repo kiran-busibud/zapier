@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TicketSearchController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -180,3 +181,5 @@ Route::get('/meilisearch_test2', function (Request $request) {
 });
 
 Route::get('/tickets', [TicketController::class, 'getAllTickets']);
+
+Route::get('/search', [TicketSearchController::class, 'search']);
