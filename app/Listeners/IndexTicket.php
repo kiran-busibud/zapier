@@ -25,6 +25,6 @@ class IndexTicket implements ShouldQueue
     {
         $client = new Client(env('MEILISEARCH_HOST'), env('MEILISEARCH_KEY'));
 
-        $client->index('test_index7')->updateDocuments([$event->ticket->toArray()]);
+        $client->index('test_index3')->updateDocuments([$event->ticket->toArray()]);
     }
 }

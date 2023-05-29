@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Events\PostCreated;
+use App\Events\TicketUpdated;
 use App\Listeners\TestListener;
 use App\Listeners\IndexPost;
+use App\Listeners\UpdateTicket;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -26,6 +28,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PostCreated::class => [
             IndexPost::class,
+        ],
+        TicketUpdated::class => [
+            UpdateTicket::class,
         ]
     ];
 

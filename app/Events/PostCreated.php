@@ -22,7 +22,6 @@ class PostCreated
     public $post;
     public function __construct(Post $post)
     {
-        Log::info('log1',[$post]);
         $this->post = $post;
     }
 

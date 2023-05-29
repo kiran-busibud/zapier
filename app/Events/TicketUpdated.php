@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Ticket;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -9,10 +10,9 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Ticket;
 use Illuminate\Support\Facades\Log;
 
-class TicketCreated
+class TicketUpdated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -23,6 +23,7 @@ class TicketCreated
      public $ticket;
     public function __construct(Ticket $ticket)
     {
+        Log::info('inEvent',[$ticket]);
         $this->ticket = $ticket;
     }
 

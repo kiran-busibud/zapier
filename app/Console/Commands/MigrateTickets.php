@@ -35,6 +35,6 @@ class MigrateTickets extends Command
    
     public function handle()
     {
-        $this->ticketIndexService->indexTickets();
+        $this->ticketIndexService->indexTickets([1,5,6]);
     }
 }

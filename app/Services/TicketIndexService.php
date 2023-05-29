@@ -44,9 +44,9 @@ class TicketIndexService
         return $ticketsArray;
     }
 
-    public function indexTickets()
+    public function indexTickets($ticketIds = [])
     {
-        $tickets = $this->ticketRepository->getAllTickets();
+        $tickets = $this->ticketRepository->getAllTickets($ticketIds);
 
         $tickets = $this->getTicketsArray($tickets);
 
@@ -55,7 +55,7 @@ class TicketIndexService
 
         $this->meilisearchClient = new Client($host, $key);
 
-        $this->meilisearchClient->index('test_index4')->updateDocuments($tickets);
+        $this->meilisearchClient->index('test_index3')->updateDocuments($tickets);
     }
 
     public function indexRandomTickets($count = 0)
