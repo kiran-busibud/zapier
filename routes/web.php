@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\TicketController;
 use App\Models\Post;
+use Illuminate\Support\Testing\Fakes\Fake;
 use MeiliSearch\Endpoints\Indexes;
 use Illuminate\Database\Eloquent\Builder;
 use MeiliSearch\Client;
@@ -183,3 +184,13 @@ Route::get('/meilisearch_test2', function (Request $request) {
 Route::get('/tickets', [TicketController::class, 'getAllTickets']);
 
 Route::get('/search', [TicketSearchController::class, 'search']);
+
+Route::get('/new_post',function(Request $reqeust){
+    $post = new Post();
+    $post->title = 'ttttt';
+    $post->description = 'dddaadd';
+
+    $post->save();
+
+    return response()->json(200);
+});

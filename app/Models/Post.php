@@ -2,23 +2,15 @@
 
 namespace App\Models;
 
+use App\Events\PostCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
 
-    public function searchableAs(): string
-    {
-        return 'posts_index';
-    }
-
-    public function toSearchableArray(): array
-    {
-        $array = $this->toArray();
- 
-        return $array;
-    }
+    protected $dispatchesEvents = [
+        'created' => PostCreated::class,
+    ];
 }

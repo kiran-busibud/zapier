@@ -16,7 +16,7 @@ class TicketSearchController extends Controller
 
     public function addPayload($body)
     {
-        $body['query'] = 'kira';
+        $body['query'] = 'l';
         $body['keys']=['ticket_title','ticket_description','customer_nicename'];
         return $body;
     }
